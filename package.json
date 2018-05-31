@@ -1,0 +1,22 @@
+{
+  "name": "dedup-json",
+  "version": "0.0.1",
+  "description": "Deduplicate json records",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agrasley/dedup-json.git"
+  },
+  "keywords": [
+    "json"
+  ],
+  "author": "Alex Grasley",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agrasley/dedup-json/issues"
+  },
+  "homepage": "https://github.com/agrasley/dedup-json#readme"
+}
