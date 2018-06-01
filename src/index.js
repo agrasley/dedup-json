@@ -1,6 +1,20 @@
 import program from 'commander'
+import path from 'path'
 
 import { Record } from './dedup'
+
+/**
+ * Format a path from the command line args
+ * @param {string} - The path to format
+ * @returns {string} - The formatted path
+ */
+const formatPath = (path) => {
+    if (path.isAbsolute(path)) {
+        return path
+    } else {
+        return path.join(__dirname, path) // TODO: is this correct?
+    }
+}
 
 /** Command line args */
 program
