@@ -2,7 +2,7 @@
  * deduplicate an array
  * @param {function(T1):string} toKey - Function to convert items in the array to a key.
  * @param {function(T1,T1):boolean} compare - Comparison function for duplicate items.
- * Returns true if the left operand should be kept.
+ * Returns true if the left argument should be kept.
  * @param {array<T1>} xs - The array to deduplicate.
  * @returns {array<T1>} - The deduplicated array
  */
@@ -22,7 +22,7 @@ export const dedup = (toKey, compare, xs) => {
 }
 
 /** A record to dedup */
-class Record {
+export class Record {
 
     /**
      * Create a new record
@@ -49,9 +49,9 @@ class Record {
      * compare records
      * @param {Record} x
      * @param {Record} y
-     * @returns {boolean} - True if the left operand should be kept.
+     * @returns {boolean} - True if the left argument should be kept.
      */
-    static compareRecs (x, y) {
+    static compare (x, y) {
         const xDate = Date.parse(x.record.entryDate)
         const yDate = Date.parse(x.record.entryDate)
         if (xDate > yDate) { // x is newer
