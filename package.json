@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/agrasley/dedup-json/issues"
   },
-  "homepage": "https://github.com/agrasley/dedup-json#readme"
+  "homepage": "https://github.com/agrasley/dedup-json#readme",
+  "devDependencies": {
+    "cross-env": "^5.1.6",
+    "mocha": "^5.2.0"
+  }
 }
