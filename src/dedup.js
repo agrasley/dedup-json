@@ -44,24 +44,25 @@ class Record {
         const leads = JSON.parse(jsonStr).leads
         return leads.map((x,i) => new Record(x,i))
     }
-}
 
-/**
- * compare records
- * @param {Record} x
- * @param {Record} y
- * @returns {boolean} - True if the left operand should be kept.
- */
-export const compareRecs = (x, y) => {
-    const xDate = Date.parse(x.record.entryDate)
-    const yDate = Date.parse(x.record.entryDate)
-    if (xDate > yDate) { // x is newer
-        return true
-    } else if (xDate < yDate) { // y is newer
-        return false
-    } else if (x.idx > y.idx) { // x came after y
-        return true
-    } else { // y came after x
-        return false
+    /**
+     * compare records
+     * @param {Record} x
+     * @param {Record} y
+     * @returns {boolean} - True if the left operand should be kept.
+     */
+    static compareRecs (x, y) {
+        const xDate = Date.parse(x.record.entryDate)
+        const yDate = Date.parse(x.record.entryDate)
+        if (xDate > yDate) { // x is newer
+            return true
+        } else if (xDate < yDate) { // y is newer
+            return false
+        } else if (x.idx > y.idx) { // x came after y
+            return true
+        } else { // y came after x
+            return false
+        }
     }
 }
+
