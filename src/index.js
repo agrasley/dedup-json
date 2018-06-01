@@ -1,18 +1,19 @@
 import program from 'commander'
 import path from 'path'
+import fs from 'fs-extra'
 
 import { Record } from './dedup'
 
 /**
  * Format a path from the command line args
- * @param {string} - The path to format
+ * @param {string} p - The path to format
  * @returns {string} - The formatted path
  */
-const formatPath = (path) => {
-    if (path.isAbsolute(path)) {
-        return path
+const formatPath = (p) => {
+    if (path.isAbsolute(p)) {
+        return p
     } else {
-        return path.join(__dirname, path) // TODO: is this correct?
+        return path.join(__dirname, p) // TODO: is this correct?
     }
 }
 
@@ -29,3 +30,16 @@ program
             'the log file (default: outbox/log.txt)',
             '../outbox/log.txt')
     .parse(process.argv)
+
+const deduped = fs.readFile(formatPath(program.input))
+    .then(data => {
+        return Record.dedup(Record.fromJSON(data))
+    })
+
+const writePath = formatPath(program.output)
+const outDir = fs.ensureDir(path.dirname(writePath))
+
+Promise.all([deduped, outDir])
+    .then(values => {
+        return fs.writeFile(writePath, Record.toJSON(values[0]))
+    })

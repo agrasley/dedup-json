@@ -53,7 +53,7 @@ export class Record {
     static toJSON (recs) {
         const leads = []
         recs.forEach(r => leads.push(r.record))
-        return JSON.stringify(leads)
+        return JSON.stringify(leads, null, 2)
     }
 
     /**
