@@ -19,3 +19,17 @@ export const dedup = (toKey, compare, xs) => {
     })
     return Object.values(map)
 }
+
+export const compareRecs = (x, y) => {
+    const xDate = Date.parse(x.record.entryDate)
+    const yDate = Date.parse(x.record.entryDate)
+    if (xDate > yDate) {
+        return true
+    } else if (xDate < yDate) {
+        return false
+    } else if (x.idx > y.idx) {
+        return true
+    } else {
+        return false
+    }
+}
