@@ -64,5 +64,15 @@ export class Record {
             return false
         }
     }
+
+    /**
+     * deduplicate an array of records
+     * @param {array<Record>} recs - The records to deduplicate
+     * @returns {array<Record>} - The deduplicated records
+     */
+    static dedup (recs) {
+        const recs_ = dedup(r => r.record._id, Record.compare, recs) // dedup by id
+        return dedup(r => r.record.email, Record.compare, recs_) // dedup by email
+    }
 }
 
