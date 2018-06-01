@@ -54,4 +54,19 @@ describe('Record', function () {
             assert.ok(!Record.compare(y, z))
         })
     })
+
+    describe('#dedup', function () {
+        it('deduplicates an array of records', function (done) {
+            fs.readFile(path.join(__dirname, '../inbox/leads.json'), (err, jsonLeads) => {
+                if (err) done(err)
+                fs.readFile(path.join(__dirname, './leads-deduped.json'), (err, jsonDeduped) => {
+                    if (err) done(err)
+                    const leads = Record.fromJSON(jsonLeads)
+                    const deduped = Record.fromJSON(jsonDeduped)
+                    assert.equal(Record.dedup(leads).length, deduped.length)
+                    done()
+                })
+            })
+        })
+    })
 })
