@@ -46,6 +46,17 @@ export class Record {
     }
 
     /**
+     * Create a JSON string from an array of records
+     * @param {array<Record>} recs - Records to convert
+     * @returns {string} - The JSON string
+     */
+    static toJSON (recs) {
+        const leads = []
+        recs.forEach(r => leads.push(r.record))
+        return JSON.stringify(leads)
+    }
+
+    /**
      * compare records
      * @param {Record} x
      * @param {Record} y
