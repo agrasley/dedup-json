@@ -30,7 +30,7 @@ export class Record {
      * @param {number} idx - The original index of the record
      * @returns {Record}
      */
-    constructor (record, idx) {
+    constructor(record, idx) {
         this.record = record
         this.idx = idx
     }
@@ -40,7 +40,7 @@ export class Record {
      * @param {string} jsonStr - The JSON string to parse.
      * @returns {array<Record>} - The Records parsed from the string.
      */
-    static fromJSON (jsonStr) {
+    static fromJSON(jsonStr) {
         const leads = JSON.parse(jsonStr).leads
         return leads.map((x,i) => new Record(x,i))
     }
@@ -50,7 +50,7 @@ export class Record {
      * @param {array<Record>} recs - Records to convert
      * @returns {string} - The JSON string
      */
-    static toJSON (recs) {
+    static toJSON(recs) {
         const leads = []
         recs.forEach(r => leads.push(r.record))
         return JSON.stringify(leads, null, 2)
@@ -58,20 +58,19 @@ export class Record {
 
     /**
      * compare records
-     * @param {Record} x
-     * @param {Record} y
-     * @returns {boolean} - True if the left argument should be kept.
+     * @param {Record} other - Other record to compare
+     * @returns {boolean} - True if this Record should be kept.
      */
-    static compare (x, y) {
-        const xDate = Date.parse(x.record.entryDate)
-        const yDate = Date.parse(x.record.entryDate)
-        if (xDate > yDate) { // x is newer
+    keep (other){
+        const thisDate = Date.parse(this.record.entryDate)
+        const otherDate = Date.parse(other.record.entryDate)
+        if (thisDate > otherDate) { // this is newer
             return true
-        } else if (xDate < yDate) { // y is newer
+        } else if (thisDate < otherDate) { // other is newer
             return false
-        } else if (x.idx > y.idx) { // x came after y
+        } else if (this.idx > other.idx) { // this came after other
             return true
-        } else { // y came after x
+        } else { // other came after this
             return false
         }
     }
@@ -81,9 +80,9 @@ export class Record {
      * @param {array<Record>} recs - The records to deduplicate
      * @returns {array<Record>} - The deduplicated records
      */
-    static dedup (recs) {
-        const recs_ = dedup(r => r.record._id, Record.compare, recs) // dedup by id
-        return dedup(r => r.record.email, Record.compare, recs_) // dedup by email
+    static dedup(recs) {
+        const recs_ = dedup(r => r.record._id, (x,y) => x.keep(y), recs) // dedup by id
+        return dedup(r => r.record.email, (x,y) => x.keep(y), recs_) // dedup by email
     }
 }
 

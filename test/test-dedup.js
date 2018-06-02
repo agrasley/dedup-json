@@ -33,25 +33,25 @@ describe('Record', function () {
         })
     })
 
-    describe('#compare', function () {
+    describe('#keep', function () {
         const x = new Record({entryDate: "2014-05-07T17:33:20+00:00"}, 0)
-        const y = new Record({entryDate: "2014-05-07T17:33:20+00:01"}, 1)
-        const z = new Record({entryDate: "2014-05-07T17:33:20+00:01"}, 2)
+        const y = new Record({entryDate: "2015-05-07T17:33:20+00:00"}, 1)
+        const z = new Record({entryDate: "2015-05-07T17:33:20+00:00"}, 2)
 
-        it('returns true when the left arg is newer', function () {
-            assert.ok(Record.compare(y, x))
+        it('returns true when the caller is newer', function () {
+            assert.ok(y.keep(x))
         })
 
-        it('returns false when the right arg is newer', function () {
-            assert.ok(!Record.compare(x, y))
+        it('returns false when the arg is newer', function () {
+            assert.ok(!x.keep(y))
         })
 
         it('returns true when both args have the same date and the left arg came last', function () {
-            assert.ok(Record.compare(z, y))
+            assert.ok(z.keep(y))
         })
 
         it('returns false when both args have the same date and the right arg came last', function () {
-            assert.ok(!Record.compare(y, z))
+            assert.ok(!y.keep(z))
         })
     })
 
