@@ -97,8 +97,8 @@ export class Logger {
      * @returns {Logger}
      */
     constructor() {
-        this.records = []
-        this.mapping = []
+        this.records = [] // field for the original records
+        this.mapping = [] // a mapping of record replacements
     }
 
     /**
@@ -123,7 +123,7 @@ export class Logger {
          */
         const getOutput = x => {
             let outIdx = x
-            while (this.mapping[outIdx]) {
+            while (this.mapping[outIdx]) { // traverse the mapping
                 outIdx = this.mapping[outIdx]
             }
             return outIdx

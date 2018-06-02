@@ -17,7 +17,7 @@ const formatPath = (p) => {
     }
 }
 
-/** Command line args */
+// command line args
 program
     .version('0.0.1')
     .option('-i, --input [path]',
@@ -34,22 +34,29 @@ program
 const logger = new Logger()
 const deduped = fs.readFile(formatPath(program.input))
     .then(data => {
-        const recs = Record.fromJSON(data)
-        logger.records = recs
+        const recs = Record.fromJSON(data) // create Records from JSON
+        logger.records = recs // register Records with logger
         return Record.dedup(recs, logger)
     })
 
 const writePath = formatPath(program.output)
 const logPath = formatPath(program.log)
+
+// make sure we have the directories for our output files
 const outDir = fs.ensureDir(path.dirname(writePath))
 const logDir = fs.ensureDir(path.dirname(logPath))
 
-Promise.all([deduped, outDir])
+// write output file
+const output = Promise.all([deduped, outDir])
     .then(values => {
         return fs.writeFile(writePath, Record.toJSON(values[0]))
     })
 
-Promise.all([deduped, logDir])
+// write log file
+const log = Promise.all([deduped, logDir])
     .then(values => {
         return fs.writeFile(logPath, logger.logChanges())
     })
+
+Promise.all([output, log])
+    .then(() => console.log('All done!'))
