@@ -38,8 +38,19 @@ export class Record {
      * @returns {array<Record>} - The Records parsed from the string.
      */
     static fromJSON(jsonStr) {
-        const leads = JSON.parse(jsonStr).leads
-        return leads.map((x,i) => new Record(x,i))
+        const data = JSON.parse(jsonStr)
+        if (!data.leads) {
+            throw new Error('Parsed JSON has no "leads" field')
+        }
+        return data.leads.map((x,i) => {
+            if (!x.entryDate) {
+                throw new Error('Parsed JSON record has no "entryDate" field')
+            } else if (!x._id) {
+                throw new Error('Parsed JSON record has no "_id" field')
+            } else {
+                return new Record(x,i)
+            }
+        })
     }
 
     /**
@@ -50,7 +61,7 @@ export class Record {
     static toJSON(recs) {
         const leads = []
         recs.forEach(r => leads.push(r.record))
-        return JSON.stringify(leads, null, 2)
+        return JSON.stringify({leads: leads}, null, 2)
     }
 
     /**
