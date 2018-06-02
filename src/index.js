@@ -13,7 +13,7 @@ const formatPath = (p) => {
     if (path.isAbsolute(p)) {
         return p
     } else {
-        return path.join(__dirname, p) // TODO: is this correct?
+        return path.join(process.cwd(), p)
     }
 }
 
